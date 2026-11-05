@@ -1,0 +1,10 @@
+# Só o front vai para a Vercel. API, worker e documentos ficam de fora.
+apps/api
+docs
+.github
+docker-compose.yml
+**/node_modules
+**/.next
+.env
+.env.*
+!.env.example

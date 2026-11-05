@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+/*
+ * Design system do Clipo, tirado da tela de login de referência:
+ * noite azul quase preta, vidro escuro com borda e brilho azul, azul elétrico no que é ação.
+ * Componentes usam só estes tokens (nada de cor solta).
+ */
+@theme {
+  /* Fundos, do mais fundo ao mais alto */
+  --color-canvas: #02070d;
+  --color-surface: #06101a;
+  --color-surface-2: #0a1521;
+  --color-surface-3: #0f1c2b;
+  --color-overlay: rgb(2 7 13 / 0.72);
+
+  /* Linhas */
+  --color-line: #152232;
+  --color-line-strong: #22344b;
+
+  /* Texto (contraste mínimo, do fundo mais escuro ao surface-3): ink 16:1, ink-2 11:1, muted 5.9:1, faint 4.5:1 */
+  --color-ink: #eef2f8;
+  --color-ink-2: #c9d2de;
+  --color-muted: #8d98a7;
+  --color-faint: #788494;
+
+  /* Marca: o azul do botão "Entrar" e do "C" do logo */
+  --color-brand: #1167ff;
+  --color-brand-strong: #0047f0;
+  --color-brand-deep: #0b2c8f;
+  --color-brand-bright: #0a7bff;
+  --color-brand-soft: #4f9dff;
+  --color-cyan: #22b8f5;
+
+  /* Estado */
+  --color-danger: #ff6b6b;
+  --color-success: #3dd68c;
+  --color-warning: #f5b544;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-jakarta), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+
+  --radius-field: 0.5rem;
+  --radius-card: 1.375rem;
+
+  /* Movimento: rápido e funcional (dashboard), nunca decorativo */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-in: fade-in 220ms var(--ease-out) both;
+  --animate-rise-in: rise-in 260ms var(--ease-out) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-brand) 45%, transparent);
+}
+
+/* Vidro do card do login (também em modais e painéis flutuantes) */
+@utility glass {
+  background:
+    linear-gradient(180deg, rgb(4 13 22 / 0.84), rgb(2 9 16 / 0.9)) padding-box,
+    linear-gradient(
+        200deg,
+        rgb(44 132 255 / 0.95) 0%,
+        rgb(36 72 128 / 0.55) 22%,
+        rgb(22 38 62 / 0.55) 55%,
+        rgb(22 38 62 / 0.4) 100%
+      )
+      border-box;
+  border: 1px solid transparent;
+  backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.2),
+    18px -18px 60px -30px rgb(17 103 255 / 0.55),
+    0 30px 80px -40px rgb(0 0 0 / 0.9);
+}
+
+/* Botão principal: o "Entrar" da referência (azul que escurece para a direita, com brilho) */
+@utility btn-glow {
+  background:
+    linear-gradient(90deg, var(--color-brand-bright) 0%, var(--color-brand-strong) 48%, var(--color-brand-deep) 100%)
+      padding-box,
+    linear-gradient(90deg, rgb(110 175 255 / 0.9), rgb(40 110 255 / 0.9) 50%, rgb(40 110 255 / 0.6)) border-box;
+  border: 1px solid transparent;
+  box-shadow:
+    0 0 22px -2px rgb(17 103 255 / 0.55),
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tema da plataforma (Configurações > Personalização). A camada recolore só o que tem cor:
+   texto e fundos cinza continuam como estão, os destaques azuis mudam de matiz. */
+.clipo-theme-tint {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  mix-blend-mode: hue;
+}
+html[data-theme="cyber-purple"] .clipo-theme-tint {
+  display: block;
+  background: #a855f7;
+}
+html[data-theme="emerald-matrix"] .clipo-theme-tint {
+  display: block;
+  background: #10b981;
+}
+html[data-theme="monolith-oled"] .clipo-theme-tint {
+  display: block;
+  mix-blend-mode: saturation;
+  background: rgb(128 128 128 / 0.85);
+}
+
+/* Intensidade do brilho: sutil tira as sombras de glow; alto realça. */
+html[data-glow="low"] * {
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-drop-shadow: drop-shadow(0 0 #0000) !important;
+}
+html[data-glow="high"] [class*="shadow-[0_0"] {
+  filter: brightness(1.12) saturate(1.2);
+}

@@ -1,0 +1,75 @@
+[project]
+name = "clipo-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Antigravity Assistant", email = "antigravity@gemini.ai" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "argon2-cffi>=23.1",
+    "boto3>=1.35",
+    "cryptography>=43",
+    "email-validator>=2.2",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "imageio-ffmpeg==0.6.0",
+    "langchain-anthropic>=0.3",
+    "langchain-core>=0.3",
+    "langchain-google-genai>=2",
+    "langchain-openai>=0.3",
+    "openpyxl>=3.1",
+    "pydantic-settings>=2.6",
+    "pyjwt>=2.9",
+    "pymongo>=4.13",
+    "python-multipart>=0.0.12",
+    "reportlab>=4.2",
+    "uvicorn>=0.32",
+]
+
+[project.scripts]
+api = "api:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.27",
+    "pytest>=8",
+    "ruff>=0.6",
+]
+local-stt = []
+server = [
+    "faster-whisper>=1.1",
+    "uvicorn[standard]>=0.32",
+]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "ASYNC"]
+ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106", "S107", "S603", "S607"]
+# O ambiente de teste precisa ser montado antes de importar a aplicação.
+"tests/conftest.py" = ["E402"]
+# Reaproveita a fixture do vídeo de teste importando-a; o pytest a injeta pelo nome do parâmetro.
+"tests/test_publications.py" = ["F811"]
+"tests/test_ai.py" = ["F811"]
+# Modelo de e-mail em HTML: quebrar as linhas só atrapalha a leitura.
+"src/clipo_api/services/email.py" = ["E501"]
+# Página de retorno do OAuth em HTML e campos longos da Graph API da Meta.
+"src/clipo_api/routers/social.py" = ["E501"]
+# Só checagens de arquivos temporários recém-criados; não vale a troca por threads.
+"src/clipo_api/services/media.py" = ["ASYNC109", "ASYNC240"]
+"src/clipo_api/routers/videos.py" = ["ASYNC240"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning:starlette.*"]

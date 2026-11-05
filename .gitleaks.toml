@@ -1,0 +1,7 @@
+# Regras padrão do gitleaks, mais uma exceção: as senhas fictícias usadas nos testes da API.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Senhas fictícias dos testes"
+paths = ['''apps/api/tests/.*\.py''']

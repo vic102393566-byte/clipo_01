@@ -1,0 +1,416 @@
+<title>Plano de Reconstrução Clipo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna de leitura (~70ch) com índice lateral no desktop; tabelas roláveis; sem JS */
+:root {
+  --bg: #f6f6f4; --surface: #ffffff; --fg: #1c1d22; --muted: #5d6170; --line: #e2e2dd;
+  --accent: #d9590f; --accent-soft: #fbeadf;
+  --crit: #b4232c; --crit-bg: #fbe7e8; --high: #b45309; --high-bg: #fdf0dc;
+  --med: #8a6d00; --med-bg: #f8f2d4; --low: #3b6b8f; --low-bg: #e4eef6;
+  --ok: #2f7a4b; --ok-bg: #e3f2e8; --code-bg: #efefeb;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121318; --surface: #1a1c22; --fg: #e7e7ea; --muted: #9a9eab; --line: #2c2f38;
+  --accent: #f28a4b; --accent-soft: #3a2518;
+  --crit: #f2878d; --crit-bg: #3a1d20; --high: #f0b46a; --high-bg: #3a2a17;
+  --med: #e3cc6b; --med-bg: #343016; --low: #8fbde0; --low-bg: #1b2b38;
+  --ok: #7fcb9a; --ok-bg: #183022; --code-bg: #22252d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121318; --surface: #1a1c22; --fg: #e7e7ea; --muted: #9a9eab; --line: #2c2f38;
+  --accent: #f28a4b; --accent-soft: #3a2518;
+  --crit: #f2878d; --crit-bg: #3a1d20; --high: #f0b46a; --high-bg: #3a2a17;
+  --med: #e3cc6b; --med-bg: #343016; --low: #8fbde0; --low-bg: #1b2b38;
+  --ok: #7fcb9a; --ok-bg: #183022; --code-bg: #22252d; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--f-body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 48px; }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 13px; }
+nav.toc p { font: 600 11px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.toc a { color: var(--muted); text-decoration: none; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); }
+main { min-width: 0; max-width: 800px; }
+header.top { border-bottom: 2px solid var(--fg); padding-bottom: 20px; margin-bottom: 28px; }
+.eyebrow { font: 500 12px/1 var(--f-mono); color: var(--accent); letter-spacing: .04em; margin: 0 0 12px; }
+h1 { font: 700 40px/1.05 var(--f-display); margin: 0 0 12px; text-wrap: balance; letter-spacing: -.01em; }
+.meta { color: var(--muted); font-size: 13px; margin: 0; }
+h2 { font: 700 24px/1.2 var(--f-display); margin: 52px 0 12px; text-wrap: balance; scroll-margin-top: 24px; }
+h2 .n { font: 500 13px var(--f-mono); color: var(--accent); margin-right: 10px; vertical-align: 3px; }
+h3 { font: 600 16px/1.3 var(--f-body); margin: 28px 0 8px; }
+p, li { max-width: 68ch; }
+p { margin: 0 0 12px; }
+.lead { font-size: 17px; }
+ul, ol { padding-left: 20px; margin: 0 0 12px; }
+li { margin-bottom: 4px; }
+code { font: 13px var(--f-mono); background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 10px 0 14px; }
+pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.55; overflow-wrap: normal; white-space: pre; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tbl { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11px/1.3 var(--f-body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.m { font-family: var(--f-mono); font-size: 12.5px; }
+.sev { display: inline-block; font: 600 11px/1 var(--f-body); letter-spacing: .05em; text-transform: uppercase; padding: 4px 7px; border-radius: 4px; white-space: nowrap; }
+.crit { color: var(--crit); background: var(--crit-bg); } .high { color: var(--high); background: var(--high-bg); }
+.med { color: var(--med); background: var(--med-bg); } .low { color: var(--low); background: var(--low-bg); }
+.ok { color: var(--ok); background: var(--ok-bg); }
+.note { border-left: 3px solid var(--low); background: var(--low-bg); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+.note p { margin: 0; }
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+.callout p { margin: 0; }
+.phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px; margin: 16px 0; }
+.phase { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 4px; padding: 12px; min-width: 0; }
+.phase.done { border-top-color: var(--ok); }
+.phase .w { font: 500 11.5px var(--f-mono); color: var(--muted); }
+.phase b { display: block; font: 700 15px/1.25 var(--f-display); margin: 4px 0 6px; }
+.phase ul { padding-left: 16px; margin: 0; font-size: 12.5px; }
+.phase li { margin-bottom: 2px; }
+.gate { font-size: 12px; color: var(--muted); border-top: 1px dashed var(--line); margin-top: 8px; padding-top: 6px; }
+h2 .w { font: 500 12px var(--f-mono); color: var(--muted); margin-left: 8px; vertical-align: 3px; }
+.caption { font-size: 13px; color: var(--muted); }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 24px 60px; }
+  nav.toc { display: none; }
+  h1 { font-size: 32px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Seções">
+  <p>Seções</p>
+  <ol>
+    <li><a href="#resumo">Resumo</a></li>
+    <li><a href="#regras">Regras da reconstrução</a></li>
+    <li><a href="#mapa">Mapa das fases</a></li>
+    <li><a href="#f0">F0 · Fundação</a></li>
+    <li><a href="#f1">F1 · Logs e observabilidade</a></li>
+    <li><a href="#f2">F2 · Contas e acesso</a></li>
+    <li><a href="#f3">F3 · Vídeos e processamento</a></li>
+    <li><a href="#f4">F4 · Redes sociais e testes</a></li>
+    <li><a href="#f5">F5 · Agenda e publicação</a></li>
+    <li><a href="#f6">F6 · Planos e cobrança</a></li>
+    <li><a href="#f7">F7 · Inteligência artificial</a></li>
+    <li><a href="#f8">F8 · Super Admin</a></li>
+    <li><a href="#f9">F9 · Telas do sistema</a></li>
+    <li><a href="#f10">F10 · Endurecimento</a></li>
+    <li><a href="#voce">O que depende de você</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="top">
+  <p class="eyebrow">clipo-platform · plano de reconstrução · 28 out 2026</p>
+  <h1>Plano de reconstrução do Clipo</h1>
+  <p class="meta">Substitui o plano de migração anterior. Tudo é reconstruído do zero sobre a fundação já pronta. O back-end vem primeiro e as telas reais do sistema ficam para o fim. Prazos são estimativas para uma pessoa dedicada e serão revistos no fim de cada fase.</p>
+</header>
+
+<section id="resumo">
+<h2><span class="n">01</span>Resumo</h2>
+<p class="lead">São <strong>11 fases</strong>, em cerca de <strong>24 a 30 semanas</strong>. A F0 já está pronta. Da F1 à F8 o trabalho é todo de back-end, ou seja, as regras, as integrações, os logs e o painel administrativo. A F9 monta todas as telas de uma vez, começando pela tela de login da sua imagem, e a F10 prepara para produção.</p>
+<p>Por que as telas no fim: com a API pronta e testada, cada tela é construída uma vez, sobre um contrato que não muda mais. Até lá, cada fase é verificada por testes automáticos, pela documentação interativa da API (<code>localhost:8000/docs</code>) e por um roteiro de teste que você pode seguir.</p>
+<div class="note"><p><strong>As telas provisórias:</strong> as telas antigas copiadas para o Next (<code>apps/web/src/clipo</code>) ficam congeladas. Elas não recebem melhorias e vão quebrando conforme a API nova muda. Saem de vez na F9.</p></div>
+</section>
+
+<section id="regras">
+<h2><span class="n">02</span>Regras da reconstrução</h2>
+<div class="tbl"><table>
+<thead><tr><th>Regra</th><th>Na prática</th></tr></thead>
+<tbody>
+<tr><td>Nada herdado do código antigo</td><td>Regras, contratos de API e telas são desenhados de novo. O código antigo serve só como referência do que o produto faz.</td></tr>
+<tr><td>A fundação fica</td><td>Login, sessões, CSRF, isolamento por usuário, S3, FFmpeg sem shell, MongoDB e os testes já estão prontos e testados, e não são refeitos.</td></tr>
+<tr><td>API versionada</td><td>Rotas novas em <code>/api/v1</code>, com um formato único de erro e de paginação. As rotas de compatibilidade com o Clipo antigo são apagadas.</td></tr>
+<tr><td>Tudo vai para o log</td><td>Toda chamada a rede social, webhook, job, login e erro grava uma entrada no log do sistema. Nenhuma integração existe sem log.</td></tr>
+<tr><td>Toda integração tem teste</td><td>Cada rede e cada webhook tem um diagnóstico que dá para rodar a qualquer hora (o botão de testes).</td></tr>
+<tr><td>Regra de negócio no servidor</td><td>Limites de plano, cotas e permissões são conferidos na API, nunca só na tela.</td></tr>
+<tr><td>Fase só fecha com critério cumprido</td><td>Cada fase tem uma lista de saída verificada antes de começar a seguinte.</td></tr>
+<tr><td>Tudo local primeiro</td><td>Roda e é testado no seu Mac, em Docker, sem Git nem GitHub até você pedir.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="mapa">
+<h2><span class="n">03</span>Mapa das fases</h2>
+<div class="tbl"><table>
+<thead><tr><th>Fase</th><th>Entrega</th><th>Prazo</th><th>Depende de</th></tr></thead>
+<tbody>
+<tr><td><span class="sev ok">Feita</span> F0</td><td>Fundação: login, segurança, banco, S3, Docker, testes e contas de teste</td><td>—</td><td>—</td></tr>
+<tr><td><span class="sev ok">Feita</span> F1</td><td>Logs do sistema, auditoria e rastreio de requisições</td><td>—</td><td>F0</td></tr>
+<tr><td><span class="sev ok">Feita</span> F2</td><td>Contas: Google, Apple, perfil, sessões, papéis, LGPD</td><td>—</td><td>Credenciais reais do Google e da Apple</td></tr>
+<tr><td><span class="sev ok">Feita</span> F3</td><td>Vídeos: envio, fila de processamento, cortes, cotas</td><td>—</td><td>F1, F2</td></tr>
+<tr><td><span class="sev ok">Feita</span> F4</td><td>YouTube, Instagram e TikTok, com o botão de testes</td><td>—</td><td>Apps aprovados e contas reais para o teste final</td></tr>
+<tr><td><span class="sev ok">Feita</span> F5</td><td>Agendamento, publicação automática e notificações</td><td>—</td><td>Contas reais para o teste final no YouTube</td></tr>
+<tr><td><span class="sev ok">Feita</span> F6</td><td>Planos, pagamento (Asaas), webhooks e cotas por plano</td><td>—</td><td>Chave do sandbox do Asaas para o teste final</td></tr>
+<tr><td><span class="sev ok">Feita</span> F7</td><td>Gateway de IA, metadados, transcrição, legendas, cortes inteligentes</td><td>—</td><td>Uma chave de IA (ou modelo local) para os cortes inteligentes no Docker</td></tr>
+<tr><td><span class="sev ok">Feita</span> F8</td><td>Super Admin (back-end)</td><td>—</td><td>—</td></tr>
+<tr><td>F9</td><td>Todas as telas, começando pelo login da sua imagem</td><td>5 sem</td><td>F1 a F8 · arquivos de design</td></tr>
+<tr><td>F10</td><td>Testes ponta a ponta, carga, segurança, backup e deploy</td><td>2 sem</td><td>F9</td></tr>
+</tbody></table></div>
+<p class="caption">As F6 e F7 podem andar em paralelo às F4 e F5, se houver uma segunda pessoa. O pedido de aprovação dos apps nas redes sociais leva semanas e deve começar já, junto com a F1.</p>
+</section>
+
+<section id="f0">
+<h2><span class="n">04</span>F0 · Fundação <span class="sev ok">feita</span></h2>
+<ul>
+  <li>API em Python (FastAPI), front em Next.js 16, MongoDB 7 em replica set, S3 local (SeaweedFS), Mailpit e Docker.</li>
+  <li>Login próprio: Argon2id, sessões que giram a cada renovação, cookies <code>HttpOnly</code>, CSRF, limite de tentativas, confirmação de e-mail e troca de senha.</li>
+  <li>Segurança: cabeçalhos, CORS, erros padronizados, isolamento por usuário (<code>OwnedRepository</code>) e o teste que exige login em toda rota nova.</li>
+  <li>31 testes automáticos e as contas de teste (comum e super admin), recriadas com <code>uv run python -m clipo_api.seed</code>.</li>
+</ul>
+</section>
+
+<section id="f1">
+<h2><span class="n">05</span>F1 · Logs do sistema e observabilidade <span class="sev ok">feita</span></h2>
+<p>Vem primeiro porque todas as fases seguintes gravam nele. É a base do que você pediu: "tudo registrado em logs dentro da plataforma".</p>
+<h3>Entregas</h3>
+<ul>
+  <li><strong>Coleção <code>system_logs</code></strong>, com data, nível (info, aviso, erro), categoria (auth, vídeo, integração, webhook, job, pagamento, IA, admin), evento, usuário, plataforma, identificador da requisição, duração em ms, resultado e detalhes.</li>
+  <li><strong>Mascaramento automático:</strong> senha, token, cookie, chave de API e cartão nunca entram no log. Um teste garante isso.</li>
+  <li><strong>Cliente HTTP com log embutido:</strong> toda chamada a serviço externo passa por ele e grava método, URL sem segredos, status, tempo e o erro resumido. Nenhuma integração chama a internet por fora dele.</li>
+  <li><strong>Auditoria separada</strong> (<code>audit_logs</code>) para ações sensíveis: troca de senha, mudança de papel, ações do admin, exclusão de conta.</li>
+  <li><strong>Retenção:</strong> 90 dias para logs comuns e 1 ano para auditoria, apagados sozinhos pelo índice TTL. Os prazos são ajustáveis.</li>
+  <li><strong>API de consulta</strong> (<code>/api/v1/admin/logs</code>), só para admin: filtros por período, nível, categoria, usuário, plataforma e identificador da requisição, com paginação e exportação em CSV.</li>
+  <li><strong>Alerta de erro:</strong> sequência de falhas numa integração gera um e-mail para o admin (no Mailpit, em desenvolvimento).</li>
+</ul>
+<h3>Pronto quando</h3>
+<ul>
+  <li>Login, falha de login e bloqueio por tentativas aparecem no log, com o mesmo identificador da requisição do cabeçalho <code>X-Request-ID</code>.</li>
+  <li>O teste de mascaramento passa: nenhum segredo aparece em nenhuma entrada.</li>
+  <li>A consulta filtra, pagina e exporta pela documentação da API.</li>
+</ul>
+</section>
+
+<section id="f2">
+<h2><span class="n">06</span>F2 · Contas e acesso <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> tudo pronto e testado, com Google e Apple simulados em teste. Falta só ligar as credenciais reais: <code>GOOGLE_CLIENT_ID</code>/<code>GOOGLE_CLIENT_SECRET</code> e, para a Apple, a conta de desenvolvedor mais o túnel HTTPS. "Local aproximado" da sessão ficou de fora: precisa de uma base de geolocalização por IP, e o IP real só existe em produção (F10).</p></div>
+<h3>Entregas</h3>
+<ul>
+  <li><strong>Login com Google</strong> (OpenID Connect): <code>state</code>, <code>nonce</code> e PKCE. O <code>id_token</code> é validado pela chave pública do Google, e o e-mail precisa estar confirmado.</li>
+  <li><strong>Login com Apple:</strong> retorno por POST e <code>client_secret</code> assinado com a sua chave <code>.p8</code>. Também trata o e-mail oculto da Apple e o nome que só vem no primeiro login.</li>
+  <li><strong>Identidades ligadas:</strong> uma conta pode ter senha, Google e Apple. As contas se ligam só por e-mail confirmado. Quem não tem senha recebe "entre com o Google" ao tentar usar senha.</li>
+  <li><strong>Perfil:</strong> nome, foto (enviada ao S3), idioma, tema e preferências de notificação.</li>
+  <li><strong>Troca de e-mail</strong> com confirmação nos dois endereços.</li>
+  <li><strong>Sessões abertas:</strong> lista de aparelhos com data e local aproximado, e "sair deste aparelho" ou "sair de todos".</li>
+  <li><strong>Papéis e permissões:</strong> usuário, suporte, admin e super admin, com uma matriz de permissões testada rota a rota.</li>
+  <li><strong>LGPD:</strong> exportar os próprios dados (arquivo JSON) e excluir a conta, apagando dados e arquivos, com 7 dias para desistir.</li>
+  <li>Tudo isso grava no log e na auditoria da F1.</li>
+</ul>
+<h3>Pronto quando</h3>
+<ul>
+  <li>Entrar com Google funciona no seu Mac. Entrar com Apple funciona pelo túnel HTTPS.</li>
+  <li>Testes com <code>state</code> forjado, <code>nonce</code> errado, token vencido e ligação de contas.</li>
+  <li>Exportar e excluir conta funcionam e deixam auditoria.</li>
+</ul>
+<div class="note"><p><strong>Apple:</strong> a Apple não aceita <code>localhost</code> nem HTTP no retorno. Para testar no Mac é preciso um túnel HTTPS (Cloudflare Tunnel) com um domínio cadastrado na Apple.</p></div>
+</section>
+
+<section id="f3">
+<h2><span class="n">07</span>F3 · Vídeos e processamento <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> critérios de saída verificados no Docker, pelo front. Um vídeo de 2,05 GB em 262 partes teve a conexão "derrubada" com 40% enviado e foi retomado. O processamento levou 21 s, com o andamento por SSE. O corte em 4 partes sobreviveu a um <code>kill</code> do worker: foi retomado depois de 75 s, sem duplicar partes. E um arquivo de 30 GB foi recusado pela cota do plano Pro. As telas provisórias de vídeo deixaram de funcionar, porque as rotas antigas foram apagadas. As telas novas chegam na F9.</p></div>
+<h3>Entregas</h3>
+<ul>
+  <li><strong>Envio em partes (S3 multipart)</strong> direto do navegador para o S3, com retomada se a conexão cair. Funciona para arquivos de até 25 GB.</li>
+  <li><strong>Worker separado</strong> (outro container) que consome a fila de jobs no MongoDB: conferência do vídeo, miniatura, versão de visualização leve e cortes.</li>
+  <li><strong>Jobs com estado:</strong> na fila, processando, concluído, falhou ou cancelado. Cada um tem progresso, tentativas com espera crescente, cancelamento e retomada se o worker cair.</li>
+  <li><strong>Progresso em tempo real</strong> por Server-Sent Events, no lugar de perguntar ao servidor a cada segundo.</li>
+  <li><strong>Modelo de dados novo:</strong> vídeo original, cortes (com início, fim e origem), miniaturas e metadados.</li>
+  <li><strong>Cotas por plano no servidor:</strong> espaço total, tamanho por arquivo, duração e vídeos por mês.</li>
+  <li><strong>Exclusão completa:</strong> apaga banco e S3, com lixeira de 7 dias.</li>
+  <li>Cada etapa do processamento grava no log, com duração e erro.</li>
+</ul>
+<h3>Pronto quando</h3>
+<ul>
+  <li>Um vídeo de 2 GB envia, cai a conexão no meio, retoma e é cortado em partes pelo worker.</li>
+  <li>Reiniciar o worker no meio de um corte não perde o job.</li>
+  <li>Passar da cota é recusado pela API com mensagem clara.</li>
+</ul>
+</section>
+
+<section id="f4">
+<h2><span class="n">08</span>F4 · Redes sociais e o botão de testes <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> conectores, renovação automática de token, webhooks e o botão de testes estão prontos e testados contra as três redes simuladas. O diagnóstico do webhook de pagamento roda de verdade no Docker. Falta o critério "com contas reais": ele depende das credenciais dos apps, dos apps aprovados nas redes e de contas de teste. O Instagram e o webhook do TikTok também precisam de HTTPS público (túnel) para a Meta e o TikTok alcançarem o Clipo.</p></div>
+<h3>Entregas</h3>
+<ul>
+  <li><strong>Conectores no mesmo formato</strong> para YouTube, Instagram e TikTok: conectar, renovar o token sozinho, enviar, publicar, consultar status e desconectar.</li>
+  <li><strong>Tokens criptografados</strong> e renovação antes de vencer, com aviso quando a pessoa precisa conectar de novo.</li>
+  <li><strong>Recebimento de webhooks</strong> das redes onde existir (status de publicação do TikTok, eventos da Meta), com assinatura validada e log de cada um.</li>
+  <li><strong>Diagnóstico por plataforma (o botão de testes)</strong>, com um vídeo de teste curto do próprio Clipo:</li>
+</ul>
+<div class="tbl"><table>
+<thead><tr><th>Plataforma</th><th>Conexão</th><th>Envio</th><th>Publicação</th><th>Exclusão</th></tr></thead>
+<tbody>
+<tr><td>YouTube</td><td>Token e canal</td><td>Upload real</td><td>Como <strong>privado</strong></td><td><span class="sev ok">Apaga pela API</span></td></tr>
+<tr><td>TikTok</td><td>Token e perfil</td><td>Upload real</td><td>Rascunho na caixa do criador, ou "só eu" (<code>SELF_ONLY</code>)</td><td><span class="sev high">A API não permite</span> fica o aviso para apagar no app</td></tr>
+<tr><td>Instagram</td><td>Token e conta comercial</td><td>Cria o contêiner de mídia e espera ficar pronto</td><td>Opcional, porque não existe post privado</td><td><span class="sev high">A API não permite</span> o teste para antes de publicar</td></tr>
+<tr><td>Webhook de pagamento</td><td colspan="4">Envia um evento de teste assinado para o próprio Clipo e confere se foi processado</td></tr>
+</tbody></table></div>
+<ul>
+  <li>Cada teste devolve o resultado passo a passo (ok ou falha, tempo e mensagem do provedor). Tudo fica gravado no log com o identificador do teste, e o histórico fica disponível para consulta.</li>
+</ul>
+<div class="callout"><p><strong>Limite das redes:</strong> as APIs oficiais do TikTok e do Instagram não deixam apagar publicações. Por isso, nessas duas, o teste de exclusão não é automático. O diagnóstico testa até onde a API permite sem deixar post público, e avisa o que precisa ser apagado à mão.</p></div>
+<h3>Pronto quando</h3>
+<ul>
+  <li>O diagnóstico das três redes roda de ponta a ponta com contas reais e aparece no log.</li>
+  <li>Um token vencido é renovado sozinho, e a renovação aparece no log.</li>
+</ul>
+</section>
+
+<section id="f5">
+<h2><span class="n">09</span>F5 · Agenda e publicação automática <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> publicações, agendador, status de volta, avisos e calendário estão prontos, com 17 testes novos contra as redes simuladas (106 no total). No Docker, uma publicação agendada para dali a 2 minutos entrou na fila sozinha, o worker chamou o YouTube de verdade e, como a conexão de prova usava um token falso, o YouTube recusou: a conexão foi marcada para reconectar, a publicação ficou como "falhou", os dois avisos chegaram no sino e no e-mail, e tudo ficou no log. Falta repetir com uma conta real do YouTube para ver o vídeo sair como privado.</p></div>
+<h3>Como ficou</h3>
+<ul>
+  <li><strong>Nunca publica duas vezes:</strong> o agendador troca o estado numa operação atômica e cria o job com id fixo. Se o envio fica com resultado incerto (o worker caiu no meio, ou a conexão caiu sem resposta da rede), o Clipo não reenvia sozinho: pede para a pessoa conferir na rede e confirmar.</li>
+  <li><strong>Regras por rede</strong> conferidas antes de agendar e na hora de publicar: tamanho do título e do texto, privacidade aceita e duração do vídeo.</li>
+  <li><strong>Conteúdo agendado não vai para a lixeira</strong> até a pessoa cancelar ou desfazer o agendamento.</li>
+  <li><strong>Avisos</strong> no sino e por e-mail, respeitando as preferências da conta; o de reconectar sempre vai por e-mail, e o de espaço só uma vez por mês.</li>
+  <li>Rotas: <code>/api/v1/publications</code> (criar, calendário por período, editar e reagendar, agendar, desfazer, publicar agora, tentar de novo, cancelar, apagar, apagar na rede) e <code>/api/v1/notifications</code>.</li>
+</ul>
+<h3>Entregas planejadas</h3>
+<ul>
+  <li><strong>Publicações</strong> com vídeo, redes, texto por rede, data e hora com fuso e estado (rascunho, agendada, publicando, publicada, falhou).</li>
+  <li><strong>Agendador no worker:</strong> a cada minuto publica o que venceu, com 3 tentativas e espera crescente. Nunca publica duas vezes o mesmo item.</li>
+  <li><strong>Status de volta das redes</strong> (link do post, processado ou recusado), por consulta e por webhook.</li>
+  <li><strong>Notificações</strong> por e-mail e dentro do sistema: publicou, falhou, token vencido, cota perto do fim.</li>
+  <li><strong>Calendário pela API</strong>, por período, com reagendamento.</li>
+</ul>
+<p><strong>Pronto quando:</strong> uma publicação agendada para dali a 2 minutos sai sozinha no YouTube como privada, o status volta, e a notificação e o log aparecem.</p>
+</section>
+
+<section id="f6">
+<h2><span class="n">10</span>F6 · Planos e cobrança <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> gateway escolhido: <strong>Asaas</strong> (assinatura recorrente com Pix, boleto e cartão). Tudo pronto e testado contra o Asaas simulado (17 testes novos, 121 no total). No Docker, sem chave do sandbox, a cobrança roda no modo simulado pelo mesmo caminho do webhook real: o checkout abriu a fatura, o pagamento ativou o plano, o cancelamento manteve o plano até o fim do período e o próprio worker rebaixou para o gratuito, com aviso no sino, e-mail e log. Falta repetir com a chave do sandbox do Asaas e o webhook apontado para um túnel HTTPS.</p></div>
+<h3>Como ficou</h3>
+<ul>
+  <li><strong>Planos no banco</strong>, editáveis pelo admin: preço mensal e anual, espaço, tamanho por arquivo, duração, vídeos por mês, contas sociais e créditos de IA. Preços de partida: Básico R$ 29,90, Pro R$ 59,90, Premium R$ 99,90 (anual = 10 meses).</li>
+  <li><strong>Plano gratuito de reserva</strong> (não é vendido): quem não paga cai nele. Conta nova ganha 7 dias de teste do Pro.</li>
+  <li><strong>Troca de plano:</strong> subir vale na hora; descer ou trocar o ciclo vale no fim do período pago. Cancelar para as cobranças já e mantém o plano até o fim do período; dá para desfazer antes disso.</li>
+  <li><strong>Inadimplência:</strong> cobrança atrasada mantém o plano por 5 dias, com aviso; depois o plano cai e a assinatura no Asaas para.</li>
+  <li><strong>Cupons</strong> por percentual ou valor, só na primeira cobrança ou para sempre, com limite de usos, validade e planos permitidos. <strong>Plano cortesia</strong> e <strong>reembolso</strong> pelo admin.</li>
+  <li><strong>Webhook do Asaas</strong> com token, sem processar o mesmo evento duas vezes (cartão manda "confirmado" e "recebido": aplica uma vez). O CPF vai só para o Asaas; o Clipo guarda os 4 últimos dígitos.</li>
+  <li><strong>Cotas:</strong> limite de contas sociais aplicado ao conectar e ao publicar; espaço, arquivo, duração e vídeos por mês já vinham da F3. Créditos de IA entram na F7.</li>
+</ul>
+<h3>Entregas planejadas</h3>
+<ul>
+  <li><strong>Planos configuráveis:</strong> preço, espaço, vídeos por mês, contas sociais e créditos de IA.</li>
+  <li><strong>Gateway de pagamento real</strong> (a escolher): checkout, Pix, boleto e cartão, renovação, cancelamento, troca de plano e reembolso.</li>
+  <li><strong>Webhooks do gateway</strong> com assinatura validada, sem processar o mesmo evento duas vezes, e com log de cada um.</li>
+  <li><strong>Inadimplência:</strong> prazo de tolerância, aviso e rebaixamento automático.</li>
+  <li><strong>Teste gratuito</strong> e cupons.</li>
+  <li><strong>Cotas por plano</strong> aplicadas em todas as rotas das F3, F4 e F7.</li>
+</ul>
+<p><strong>Pronto quando:</strong> um pagamento no modo de teste do gateway ativa o plano pelo webhook, e o cancelamento rebaixa o plano no fim do período.</p>
+</section>
+
+<section id="f7">
+<h2><span class="n">11</span>F7 · Inteligência artificial <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> tudo pronto e testado com provedores simulados (11 testes novos, 131 no total), incluindo o critério de saída com um vídeo de 20 minutos. No Docker rodou de verdade, sem chave nenhuma: a transcrição local (faster-whisper) de um vídeo de 20 min com fala em português levou cerca de 70 s, com o tempo de cada palavra, e a legenda foi gravada num corte com a palavra falada acendendo. As 5 sugestões de corte no Docker dependem de um modelo de linguagem: falta uma chave (Gemini, Claude ou OpenAI) ou um modelo local.</p></div>
+<h3>Como ficou</h3>
+<ul>
+  <li><strong>Gateway com LangChain:</strong> fila de modelos por tarefa, editável no admin (padrão: Gemini → Claude → OpenAI → local). Se um modelo falha ou responde fora do formato, vai o próximo. Cada chamada fica em <code>ai_calls</code> e no log com modelo, versão do prompt, tokens, custo e tempo.</li>
+  <li><strong>Preços dos modelos</strong> ficam no admin (por milhão de tokens; transcrição por minuto). Sem preço, o log mostra os tokens e "sem preço configurado"; modelo local custa zero.</li>
+  <li><strong>Prompts versionados</strong> no banco com teste A/B por peso. Cada pessoa cai sempre na mesma versão; aceitar a sugestão conta como nota. O admin vê chamadas, custo, tempo e aceitação por versão e modelo.</li>
+  <li><strong>Transcrição</strong> local no worker (sem custo, o áudio não sai do servidor) ou por API no formato da OpenAI, em partes de 10 min que não se perdem se o worker cair. Idioma pelo idioma da conta.</li>
+  <li><strong>Metadados a partir da fala</strong> do vídeo ou do trecho do corte, com tom, redes e observação do criador.</li>
+  <li><strong>Cortes inteligentes:</strong> a IA sugere os trechos com nota, motivo, título e gancho; o Clipo confere (dentro do vídeo, no tamanho pedido, sem sobreposição) e encaixa no começo e no fim das palavras. Aceitar vira corte.</li>
+  <li><strong>Legendas</strong> em SRT e VTT (vídeo e corte) e gravadas no corte em três estilos (clássico, destaque com karaokê, minimal), com cor, tamanho, posição e maiúsculas ajustáveis.</li>
+  <li><strong>Créditos de IA por plano</strong> (reservados antes, devolvidos se falhar) e <strong>teto de gasto diário</strong> da plataforma, com aviso em 80%.</li>
+</ul>
+<h3>Entregas planejadas</h3>
+<ul>
+  <li><strong>Gateway de IA com LangChain:</strong> modelo por tarefa (Gemini, Claude, OpenAI ou local), reserva entre provedores, saída validada e custo de cada chamada no log.</li>
+  <li><strong>Prompts versionados</strong> no banco, com teste A/B.</li>
+  <li><strong>Transcrição</strong> com tempos de cada palavra.</li>
+  <li><strong>Metadados a partir da fala:</strong> título, descrição, hashtags e chamada para ação gerados da transcrição, e não só do título.</li>
+  <li><strong>Legendas</strong> em arquivo e gravadas no vídeo, com estilo.</li>
+  <li><strong>Cortes inteligentes:</strong> a IA sugere os melhores trechos com nota e motivo.</li>
+  <li><strong>Créditos de IA por plano</strong> e teto de gasto diário.</li>
+</ul>
+<p><strong>Pronto quando:</strong> um vídeo de 20 minutos gera transcrição, 5 sugestões de corte com nota e legendas, e o custo de cada chamada aparece no log.</p>
+</section>
+
+<section id="f8">
+<h2><span class="n">12</span>F8 · Super Admin (back-end) <span class="sev ok">feita</span></h2>
+<div class="note"><p><strong>Situação em 29 out 2026:</strong> critério de saída cumprido. Todas as ações do admin funcionam pela API, e dois testes vigiam isso para as rotas futuras: um chama cada rota do admin com cada papel (cliente, suporte, admin) e confere a recusa; outro confere no código que toda rota do admin que muda algo grava auditoria. São 13 testes novos, 144 no total. No Docker, com a conta de super admin: busca e detalhe das pessoas, métricas, painel de erros por integração, saúde das integrações, fila de jobs e "entrar como" a pessoa (leu a conta, a tentativa de mudar algo foi barrada, e depois de encerrar o acesso caiu), tudo com auditoria.</p></div>
+<h3>Como ficou</h3>
+<ul>
+  <li><strong>Pessoas:</strong> busca por nome, e-mail ou id, com filtros de plano, estado e papel. O detalhe mostra assinatura, uso, créditos de IA, redes, contagens e auditoria. Dá para suspender (derruba as sessões e pausa as publicações agendadas), reativar e dar créditos de IA extras no mês. Admin só age sobre quem tem papel menor.</li>
+  <li><strong>Entrar como a pessoa:</strong> token de 30 min, só leitura. Qualquer tentativa de mudar algo é barrada e registrada, cada página vista vai para o log, e a sessão aparece para a própria pessoa como "suporte" (ela pode encerrar). Só para contas de clientes.</li>
+  <li><strong>Fila de jobs:</strong> lista com filtros, resumo das últimas 24 h e jobs presos; repetir (sem cobrar créditos de novo) e cancelar (cancelar na fila agora devolve os créditos também para a própria pessoa).</li>
+  <li><strong>Integrações e erros:</strong> saúde de cada rede, do pagamento e da IA (configuração, contas, erros e webhooks em 24 h, último erro e último teste), histórico de todos os testes e painel de erros por integração com taxa de erro, erros mais frequentes e série por hora.</li>
+  <li><strong>IA:</strong> chaves dos provedores pelo admin, guardadas criptografadas e mostradas só com os 4 últimos caracteres (valem por cima do <code>.env</code>), além de modelos, prompts e custo da F7.</li>
+  <li><strong>Feature flags:</strong> liga e desliga por plano, por pessoa ou por porcentagem das contas; a tela pergunta em <code>/api/v1/me/flags</code>.</li>
+  <li><strong>Métricas:</strong> pessoas ativas (dia, semana, período), por plano, assinaturas, receita recorrente mensal (MRR), receita e reembolsos, vídeos e jobs, taxa de falha de publicação e custo de IA.</li>
+  <li>Planos e cupons já vinham da F6.</li>
+</ul>
+<h3>Entregas planejadas</h3>
+<ul>
+  <li><strong>Usuários:</strong> busca, plano, uso, suspender, créditos e entrar como o usuário em modo leitura, com auditoria.</li>
+  <li><strong>Logs e auditoria:</strong> consulta da F1 com painéis de erro por integração.</li>
+  <li><strong>Fila de jobs:</strong> ver, repetir e cancelar.</li>
+  <li><strong>Integrações:</strong> saúde de cada rede, diagnósticos e histórico de testes.</li>
+  <li><strong>IA:</strong> provedores, chaves, modelo por tarefa, prompts e custo.</li>
+  <li><strong>Planos, cupons e feature flags.</strong></li>
+  <li><strong>Métricas:</strong> usuários ativos, receita, vídeos processados, taxa de falha de publicação.</li>
+</ul>
+<p><strong>Pronto quando:</strong> todas as ações do admin funcionam pela API, respeitam os papéis e deixam auditoria.</p>
+</section>
+
+<section id="f9">
+<h2><span class="n">13</span>F9 · Telas do sistema <span class="w">5 semanas</span></h2>
+<p>Com a API fechada, as telas são construídas uma vez, sobre contratos que não mudam mais. As telas provisórias saem de vez.</p>
+<div class="tbl"><table>
+<thead><tr><th>Ordem</th><th>Telas</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Design system</strong> tirado da sua tela de login: cores, vidro, brilho azul, tipografia, botões, campos, ícones, estados e movimento.</td></tr>
+<tr><td>2</td><td><strong>Login exatamente como a imagem</strong>, com Google e Apple. Depois cadastro, esqueci a senha, nova senha e confirmação de e-mail, no mesmo visual.</td></tr>
+<tr><td>3</td><td>Casca do sistema: menu, cabeçalho, notificações e navegação no celular.</td></tr>
+<tr><td>4</td><td>Painel inicial, biblioteca de vídeos, envio com progresso e editor de cortes com linha do tempo e transcrição.</td></tr>
+<tr><td>5</td><td>Agenda, calendário, revisão antes de publicar e contas sociais com o <strong>botão de testes</strong> e o histórico.</td></tr>
+<tr><td>6</td><td>Planos, checkout, faturas, configurações, perfil, sessões e privacidade (LGPD).</td></tr>
+<tr><td>7</td><td>Super Admin: usuários, <strong>logs do sistema</strong>, jobs, integrações, IA e métricas.</td></tr>
+</tbody></table></div>
+<p><strong>Pronto quando:</strong> cada tela é conferida contra o design em desktop e celular, com teclado, leitor de tela e contraste. A pasta <code>src/clipo</code> é apagada.</p>
+</section>
+
+<section id="f10">
+<h2><span class="n">14</span>F10 · Endurecimento e entrega <span class="w">2 semanas</span></h2>
+<ul>
+  <li><strong>Testes ponta a ponta no navegador</strong> (Playwright) dos fluxos principais: cadastro, envio, corte, agendamento, publicação e pagamento.</li>
+  <li><strong>Teste de carga:</strong> quantos envios e cortes simultâneos o sistema aguenta, e o tamanho do worker.</li>
+  <li><strong>Revisão de segurança</strong> e teste de invasão nas rotas críticas.</li>
+  <li><strong>Backup</strong> do MongoDB e do S3, com teste de restauração.</li>
+  <li><strong>Produção:</strong> hospedagem, domínio, HTTPS, e-mail real, monitoramento e o pipeline de deploy (quando você liberar o Git).</li>
+  <li><strong>IP real de quem acessa:</strong> o repasse do Next não informa o IP do visitante, e o cabeçalho que chega pode ser forjado pelo navegador. Em produção, o proxy de borda (Cloudflare ou nginx) passa a ser a fonte do IP, e a API só confia nele. Isso vale para os logs e para o limite de tentativas por IP. No ambiente local, todos os acessos aparecem com o IP do container do Next.</li>
+  <li><strong>Documentos:</strong> termos, política de privacidade e runbook de incidentes.</li>
+</ul>
+</section>
+
+<section id="voce">
+<h2><span class="n">15</span>O que depende de você, e quando</h2>
+<div class="tbl"><table>
+<thead><tr><th>Item</th><th>Para a fase</th><th>Prazo para pedir</th></tr></thead>
+<tbody>
+<tr><td>Pedir aprovação dos apps no Google (YouTube), na Meta (Instagram) e no TikTok</td><td>F4</td><td><strong>Já</strong>: a revisão leva semanas</td></tr>
+<tr><td>Credenciais do Google para login (Google Cloud Console)</td><td>F2</td><td>Até o meio da F1</td></tr>
+<tr><td>Conta no Apple Developer Program (US$ 99/ano), Services ID, Team ID, Key ID e chave <code>.p8</code></td><td>F2</td><td>Até o meio da F1</td></tr>
+<tr><td>Um domínio para o túnel HTTPS (testes da Apple e webhooks das redes)</td><td>F2 e F4</td><td>Até o fim da F1</td></tr>
+<tr><td>Contas de teste em cada rede social (canal, perfil comercial do Instagram, TikTok)</td><td>F4</td><td>Até o fim da F3</td></tr>
+<tr><td>Conta no Asaas com a chave do sandbox e o token do webhook</td><td>F6</td><td>Para o teste final da F6</td></tr>
+<tr><td>Chave de pelo menos um provedor de IA (Gemini, Claude ou OpenAI) e os preços de cada modelo, ou um modelo local</td><td>F7</td><td>Para os cortes inteligentes e os metadados</td></tr>
+<tr><td>Serviço de e-mail e domínio de envio</td><td>F10 (antes, Mailpit)</td><td>Até a F9</td></tr>
+<tr><td>Arquivos de design: foto de fundo do login, logo em SVG e fontes</td><td>F9</td><td>Até o fim da F8</td></tr>
+</tbody></table></div>
+</section>
+</main>
+</div>

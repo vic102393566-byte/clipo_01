@@ -1,0 +1,13 @@
+{
+  "name": "clipo-platform",
+  "private": true,
+  "description": "Raiz do monorepo. Na Vercel, o site sai daqui e a API sai de apps/api (outro projeto).",
+  "workspaces": ["apps/web"],
+  "scripts": {
+    "build": "npm run build --workspace apps/web",
+    "dev": "npm run dev --workspace apps/web"
+  },
+  "dependencies": {
+    "next": "16.4.3"
+  }
+}
